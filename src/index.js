@@ -31,7 +31,7 @@ let bindComparison = (handle, resized, container) => {
 }
 
 // Get sliders and iterate on them
-let sliders = document.querySelectorAll(".slide-comparison")
+let sliders = Array.prototype.slice.call(document.querySelectorAll(".slide-comparison"), 0)
 sliders.forEach((element, index, array) => {
   element.querySelector('.resized img').style.width = element.offsetWidth + 'px'
   bindComparison(element.querySelector('.divider'), element.querySelector('.resized'), element)

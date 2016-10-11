@@ -79,7 +79,7 @@
 	};
 	
 	// Get sliders and iterate on them
-	var sliders = document.querySelectorAll(".slide-comparison");
+	var sliders = Array.prototype.slice.call(document.querySelectorAll(".slide-comparison"), 0);
 	sliders.forEach(function (element, index, array) {
 	  element.querySelector('.resized img').style.width = element.offsetWidth + 'px';
 	  bindComparison(element.querySelector('.divider'), element.querySelector('.resized'), element);
