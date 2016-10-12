@@ -8,23 +8,35 @@ let bindComparison = (handle, resized, container) => {
   let moveWidth = 0
 
   let scrollBlock = (e) => { 
-    e.preventDefault(); 
+    e.preventDefault()
   }
 
   let unbindScrollBlock = (e) => {
-    document.removeEventListener('touchmove', scrollBlock);
+    document.removeEventListener('touchmove', scrollBlock)
+  }
+
+  let getPageX = (e) => {
+    if(e.pageX || e.targetTouches[0].pageX) {
+      return e.pageX || e.targetTouches[0].pageX
+    } else if(typeof e.originalEvent !== 'undefined') {
+      return e.originalEvent.targetTouches[0].pageX
+    } else {
+      return false
+    }
   }
 
   let moveSlide = (e) => {
 
-    document.addEventListener('touchmove', scrollBlock, false);
+    document.addEventListener('touchmove', scrollBlock, false)
 
-    let pageX = e.pageX || e.targetTouches[0].pageX || e.originalEvent.targetTouches[0].pageX
+    let pageX = getPageX(e)
 
-    moveWidth = ((pageX - container.offsetLeft) - 1) * 100 / container.offsetWidth + '%';
+    if(pageX !== false) {
+      moveWidth = ((pageX - container.offsetLeft) - 1) * 100 / container.offsetWidth + '%'
 
-    handle.style.left = moveWidth
-    resized.style.width = moveWidth
+      handle.style.left = moveWidth
+      resized.style.width = moveWidth
+    }
 
   }
 

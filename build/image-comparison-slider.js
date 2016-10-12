@@ -65,16 +65,28 @@
 	    document.removeEventListener('touchmove', scrollBlock);
 	  };
 	
+	  var getPageX = function getPageX(e) {
+	    if (e.pageX || e.targetTouches[0].pageX) {
+	      return e.pageX || e.targetTouches[0].pageX;
+	    } else if (typeof e.originalEvent !== 'undefined') {
+	      return e.originalEvent.targetTouches[0].pageX;
+	    } else {
+	      return false;
+	    }
+	  };
+	
 	  var moveSlide = function moveSlide(e) {
 	
 	    document.addEventListener('touchmove', scrollBlock, false);
 	
-	    var pageX = e.pageX || e.targetTouches[0].pageX || e.originalEvent.targetTouches[0].pageX;
+	    var pageX = getPageX(e);
 	
-	    moveWidth = (pageX - container.offsetLeft - 1) * 100 / container.offsetWidth + '%';
+	    if (pageX !== false) {
+	      moveWidth = (pageX - container.offsetLeft - 1) * 100 / container.offsetWidth + '%';
 	
-	    handle.style.left = moveWidth;
-	    resized.style.width = moveWidth;
+	      handle.style.left = moveWidth;
+	      resized.style.width = moveWidth;
+	    }
 	  };
 	
 	  // Bind events to container
