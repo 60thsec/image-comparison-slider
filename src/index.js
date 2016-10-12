@@ -5,28 +5,33 @@ require('./index.scss')
 
 let bindComparison = (handle, resized, container) => {
 
-  let move = {}
   let moveWidth = 0
+
+  let scrollBlock = (e) => { 
+    e.preventDefault(); 
+  }
+
+  let unbindScrollBlock = (e) => {
+    document.removeEventListener('touchmove', scrollBlock);
+  }
 
   let moveSlide = (e) => {
 
+    document.addEventListener('touchmove', scrollBlock, false);
+
     let pageX = e.pageX || e.targetTouches[0].pageX || e.originalEvent.targetTouches[0].pageX
-    let pageY = e.pageY || e.targetTouches[0].pageY || e.originalEvent.targetTouches[0].pageY
 
-    move = {
-      left: pageX - container.offsetLeft,
-      top: pageY - container.offsetTop
-    };
-
-    moveWidth = (move.left - 1) * 100 / container.offsetWidth + '%';
+    moveWidth = ((pageX - container.offsetLeft) - 1) * 100 / container.offsetWidth + '%';
 
     handle.style.left = moveWidth
     resized.style.width = moveWidth
 
   }
 
+  // Bind events to container
   container.addEventListener("mousemove", moveSlide)
   container.addEventListener("touchmove", moveSlide)
+  container.addEventListener("touchend", unbindScrollBlock)
 
 }
 
